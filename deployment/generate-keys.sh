@@ -48,6 +48,7 @@ EOF
 
 # Generate the CA cert and private key
 openssl req -nodes -new -x509 -keyout ca.key -out ca.crt -subj "/CN=Admission Controller Webhook Demo CA"
+openssl req -nodes -new -x509 -keyout ca2.key -out ca2.crt -subj "/CN=Admission Controller Webhook Demo CA"
 # Generate the private key for the webhook server
 openssl genrsa -out webhook-server-tls.key 2048
 # Generate a Certificate Signing Request (CSR) for the private key, and sign it with the private key of the CA.
