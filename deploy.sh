@@ -43,6 +43,7 @@ kubectl -n webhook-demo create secret tls webhook-server-tls \
 # template with it. Then, create the Kubernetes resources.
 #ca_pem_b64="$(openssl base64 -A <"${keydir}/ca.crt")"
 ca_pem_b64="$(openssl base64 -A <"${keydir}/ca2.crt")"
+#ca_pem_b64="$(openssl base64 -A <"${keydir}/webhook-server-tls.crt")"
 sed -e 's@${CA_PEM_B64}@'"$ca_pem_b64"'@g' <"${basedir}/deployment.yaml.template" \
     | kubectl create -f -
 

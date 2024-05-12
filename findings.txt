@@ -1,0 +1,25 @@
+1) The self-signed CA in caBundle matches the same CA that signed the public TLS certificate
+   Expected: everything works
+   Actual: everything works
+
+2) The self-signed CA in caBundle doesn't match the CA that signed the public TLS certificate
+   Expected: it doesn't work
+   Actual: it doesn't work
+   $ kubectl create -f examples/pod-with-defaults.yaml
+   Error from server (InternalError): error when creating "examples/pod-with-defaults.yaml": Internal error occurred: failed calling webhook "webhook-server.webhook-demo.svc": failed to call webhook: Post "https://webhook-server.webhook-demo.svc:443/mutate?timeout=10s": tls: failed to verify certificate: x509: certificate signed by unknown authority (possibly because of "crypto/rsa: verification error" while trying to verify candidate authority certificate "Admission Controller Webhook Demo CA")
+   $
+   $ k logs webhook-server-85c8cd9688-cvhcg -n webhook-demo
+   2024/05/12 10:27:05 http: TLS handshake error from 10.244.0.143:41842: remote error: tls: bad certificate
+   2024/05/12 10:27:09 http: TLS handshake error from 10.244.0.143:41844: remote error: tls: bad certificate
+   $
+
+3) The public TLS certificate in caBundle matches the public TLS certificate used by the webhook deployment server
+   Expected: it does work
+   Actual: it does work
+   $ kubectl create -f examples/pod-with-defaults.yaml
+   pod/pod-with-defaults created
+   $ kubectl get pod/pod-with-defaults -o yaml
+   ...
+   $ kubectl logs pod-with-defaults
+   I am running as user 1234
+   $

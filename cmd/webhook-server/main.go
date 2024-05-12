@@ -98,6 +98,9 @@ func applySecurityDefaults(req *admission.AdmissionRequest) ([]patchOperation, e
 }
 
 func main() {
+	// Setting log flags to include the date, time, and file name with line number
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	certPath := filepath.Join(tlsDir, tlsCertFile)
 	keyPath := filepath.Join(tlsDir, tlsKeyFile)
 
